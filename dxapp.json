@@ -1,0 +1,141 @@
+{
+  "name": "vardict",
+  "title": "Vardict variant caller",
+  "summary": "v1.0 - (TBC.",
+  "tags": [
+    "Variants",
+    "Cancer"
+  ],
+  "properties": {
+    "github release": "v1.0"
+  },
+  "dxapi": "1.0.0",
+  "inputSpec": [
+    {
+      "name": "bam_file",
+      "label": "Bam file",
+      "help": "The indexed BAM file",
+      "class": "array:file",
+      "patterns": ["*.bam"],
+      "optional": false
+    },
+    {
+     "name": "bedfile",
+     "label": "Bedfile",
+     "help": "BED file or amplicon BED file.",
+     "class": "file",
+     "patterns": ["*.bed"],
+     "optional": true
+    },  
+    {
+      "name": "ref_genome",
+      "label": "referance genome",
+      "help": "The reference fasta.  Should be indexed (.fai)",
+      "class": "file",
+      "optional": false
+    },
+    {
+     "name": "allele_freq",
+     "label": "allele frequency threshold",
+     "help": "The threshold for allele frequency, default: 0.01 or 1%",
+     "class": "string",
+     "optional": false,
+     "default": "0.01",      
+     "group": "Common"
+    },
+    {
+     "name": "sample_name",
+     "label": "Sample name",
+     "help": "Sample name. Will overwrite sample name extracted from bam filenames ",
+     "class": "string",
+     "optional": true, 
+     "group": "Common"
+    },
+    {
+     "name": "min_reads",
+     "label": "min variance reads",
+     "help": " The minimum # of variant reads, default 2",
+     "class": "string",
+     "optional": true, 
+     "group": "Common"
+    },
+    {
+     "name": "reads_bias",
+     "label": "min reads for strand bias",
+     "help": "The minimum # of reads to determine strand bias, default 2",
+     "class": "string",
+     "optional": true, 
+     "group": "Common"
+    },
+    {
+     "name": "col_chr",
+     "label": "chromosome column",
+     "help": "The column for chromosome in bedfile",
+     "class": "string",
+     "optional": true, 
+     "default": "1",
+     "group": "Common"
+    },
+    {
+     "name": "col_start",
+     "label": "region start column",
+     "help": "The column for region start in bedfile",
+     "class": "string",
+     "optional": true, 
+     "default": "2",
+     "group": "Common"
+    },
+    {
+     "name": "col_end",
+     "label": "region end column",
+     "help": "The column for region end in bedfile",
+     "class": "string",
+     "optional": true, 
+     "default": "3",
+     "group": "Common"
+    },
+    {
+     "name": "col_gene",
+     "label": "gene name column",
+     "help": "The column for gene name in bedfile",
+     "class": "string",
+     "optional": true, 
+     "default": "4",
+     "group": "Common"
+    },
+    {
+     "name": "local_realignment",
+     "label": "local realignment",
+     "help": "Perform local realignment.  Default: True.  For Ion or PacBio, 0 is recommended",
+     "class": "boolean",
+     "optional": false,
+     "default": true,      
+     "group": "Common"
+    },  
+    {
+      "name": "extra_options",
+      "label": "Extra command-line options",
+      "help": "Extra command-line options to pass directly to vardict. Include flag. Example: -N sample name ",
+      "class": "string",
+      "optional": true,
+      "group": "Advanced"
+    }
+    ],
+  "outputSpec": [
+    {
+      "name": "vardict_vcf",
+      "label": "Output VCF from VarDict",
+      "help": "Output VCF.",
+      "class": "array:file"
+    }
+  ],
+    "runSpec": {
+    "systemRequirements": {
+      "main": {
+        "instanceType": "mem1_ssd1_x8"
+      }
+    },
+    "file": "src/code.sh",
+    "interpreter": "bash"
+  }
+}

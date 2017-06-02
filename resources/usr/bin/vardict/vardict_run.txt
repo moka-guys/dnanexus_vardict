@@ -1,0 +1,9 @@
+vardict
+
+AF_THR="0.01" # minimum allele frequency
+vardict -G /home/amy/Amplivar/ucsc.hg19.karyotypic.fa -f $AF_THR -N 4592 -b /home/amy/Documents/SWIFT/indels/indel_amplivar_vardict/4592_S8_L001/4592_S8_L001.blat.bam -c 1 -S 2 -E 3 -g 4 /home/amy/VarDict/Accel-Amplicon-EGFR-Pathway_capture.bed | teststrandbias.R | var2vcf_valid.pl -N 4592 -E -f $AF_THR
+
+
+play with no -N sample named after bam input
+AF_THR="0.01" # minimum allele frequency
+vardict -G /home/amy/Amplivar/ucsc.hg19.karyotypic.fa -f $AF_THR -b /home/amy/Documents/SWIFT/Validation/170315_amp/BAM/3853_S6_L001.blat.bam -c 1 -S 2 -E 3 -g 4 /home/amy/VarDict/amplivar1.bed | teststrandbias.R | var2vcf_valid.pl -E -f $AF_THR > /home/amy/Documents/test_noN.vcf
