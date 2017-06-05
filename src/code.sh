@@ -11,7 +11,6 @@ dx-download-all-inputs --except ref_genome --parallel
 # mv ~/in/bam_file/* ~/*
 
 echo $allele_freq
-echo $min_reads2
 echo $sample_name
 echo $col_chr
 echo $col_start
@@ -38,6 +37,10 @@ fi
 
 if [ "$local_realignment" == false ]; then
 	opts="$opts -k 0" 
+fi
+
+if [ "$extra_options" != "" ]; then
+	opts="$opts $extra_options" 
 fi
 
 # un-package reference genome

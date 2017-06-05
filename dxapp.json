@@ -14,7 +14,7 @@
     {
       "name": "bam_file",
       "label": "Bam file",
-      "help": "The indexed BAM file",
+      "help": "The indexed BAM file [-b]",
       "class": "array:file",
       "patterns": ["*.bam"],
       "optional": false
@@ -25,19 +25,19 @@
      "help": "BED file or amplicon BED file.",
      "class": "file",
      "patterns": ["*.bed"],
-     "optional": true
+     "optional": false
     },  
     {
       "name": "ref_genome",
       "label": "referance genome",
-      "help": "The reference fasta.  Should be indexed (.fai)",
+      "help": "The reference fasta.  Should be indexed (.fai) [-G]",
       "class": "file",
       "optional": false
     },
     {
      "name": "allele_freq",
      "label": "allele frequency threshold",
-     "help": "The threshold for allele frequency, default: 0.01 or 1%",
+     "help": "The threshold for allele frequency, default: 0.01 or 1% [-f]",
      "class": "string",
      "optional": false,
      "default": "0.01",      
@@ -46,7 +46,7 @@
     {
      "name": "sample_name",
      "label": "Sample name",
-     "help": "Sample name. Will overwrite sample name extracted from bam filenames ",
+     "help": "Sample name. Will overwrite sample name extracted from bam filenames [-N]",
      "class": "string",
      "optional": true, 
      "group": "Common"
@@ -54,7 +54,7 @@
     {
      "name": "min_reads",
      "label": "min variance reads",
-     "help": " The minimum # of variant reads, default 2",
+     "help": " The minimum # of variant reads, default 2 [-r]",
      "class": "string",
      "optional": true, 
      "group": "Common"
@@ -62,7 +62,7 @@
     {
      "name": "reads_bias",
      "label": "min reads for strand bias",
-     "help": "The minimum # of reads to determine strand bias, default 2",
+     "help": "The minimum # of reads to determine strand bias, default 2 [-B]",
      "class": "string",
      "optional": true, 
      "group": "Common"
@@ -70,7 +70,7 @@
     {
      "name": "col_chr",
      "label": "chromosome column",
-     "help": "The column for chromosome in bedfile",
+     "help": "The column for chromosome in bedfile [-c]",
      "class": "string",
      "optional": true, 
      "default": "1",
@@ -79,7 +79,7 @@
     {
      "name": "col_start",
      "label": "region start column",
-     "help": "The column for region start in bedfile",
+     "help": "The column for region start in bedfile [-S]",
      "class": "string",
      "optional": true, 
      "default": "2",
@@ -88,7 +88,7 @@
     {
      "name": "col_end",
      "label": "region end column",
-     "help": "The column for region end in bedfile",
+     "help": "The column for region end in bedfile [-E]",
      "class": "string",
      "optional": true, 
      "default": "3",
@@ -97,7 +97,7 @@
     {
      "name": "col_gene",
      "label": "gene name column",
-     "help": "The column for gene name in bedfile",
+     "help": "The column for gene name in bedfile [-g]",
      "class": "string",
      "optional": true, 
      "default": "4",
@@ -106,7 +106,7 @@
     {
      "name": "local_realignment",
      "label": "local realignment",
-     "help": "Perform local realignment.  Default: True.  For Ion or PacBio, 0 is recommended",
+     "help": "Perform local realignment.  Default: True.  For Ion or PacBio, 0 is recommended [-k]",
      "class": "boolean",
      "optional": false,
      "default": true,      
@@ -115,7 +115,7 @@
     {
       "name": "extra_options",
       "label": "Extra command-line options",
-      "help": "Extra command-line options to pass directly to vardict. Include flag. Example: -N sample name ",
+      "help": "Extra command-line options to pass directly to vardict. Include flag. Example: -I indel size ",
       "class": "string",
       "optional": true,
       "group": "Advanced"
