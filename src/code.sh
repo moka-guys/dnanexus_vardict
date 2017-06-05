@@ -21,8 +21,9 @@ echo $reads_bias
 echo $local_realignment
 echo $extra_options
 
+#Construct opts sting
 opts=" -f $allele_freq -c $col_chr -S $col_start -E $col_end -g $col_gene "
-
+# add non-optional arguments to opts string
 if [ "$min_reads" != "" ]; then
   opts="$opts -r $min_reads"
 fi
@@ -43,11 +44,10 @@ if [ "$extra_options" != "" ]; then
 	opts="$opts $extra_options" 
 fi
 
-# un-package reference genome
+# create directory for refernece genome, un-package reference genome
 mkdir genome
 dx cat "$ref_genome" | tar zxvf - -C genome  
 # => genome/<ref>, genome/<ref>.ann, genome/<ref>.bwt, etc.
-
 # rename genome files to grch37 so that the VCF header states the reference to be grch37.fa, which then allows Ingenuity to accept the VCFs (otherwise VCF header would have reference as genome.fa which Ingenuity won't accept)
 mv  genome/*.fa  genome/grch37.fa
 mv  genome/*.fa.fai  genome/grch37.fa.fai
@@ -56,10 +56,14 @@ genome_file=`ls genome/*.fa`
 
 
 # Run variant annotator for each Bam
-mark-section "Run VarDict VariantAnnotator"
+mark-section "Run VarDict Variant Caller"
+# loop through array of all bam files input, run VarDict for each bam file. 
 for (( i=0; i<${#bam_file_path[@]}; i++ )); 
+# show name of current bam file be run
 do echo ${bam_file_prefix[i]}
+# Index bam file input
 samtools index ${bam_file_path[i]}
+# run Vardict
 /usr/bin/vardict/vardict -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | /usr/bin/vardict/teststrandbias.R | /usr/bin/vardict/var2vcf_valid.pl -E -f $allele_freq > ${bam_file_prefix[i]}.vardict.vcf
 done
 

@@ -1,7 +1,7 @@
 {
   "name": "vardict",
   "title": "Vardict variant caller",
-  "summary": "v1.0 - (TBC.",
+  "summary": "v1.0 - (VarDict somatic variant caller for use on SWIFT NGS sequencing output).",
   "tags": [
     "Variants",
     "Cancer"
@@ -72,7 +72,7 @@
      "label": "chromosome column",
      "help": "The column for chromosome in bedfile [-c]",
      "class": "string",
-     "optional": true, 
+     "optional": false, 
      "default": "1",
      "group": "Common"
     },
@@ -81,7 +81,7 @@
      "label": "region start column",
      "help": "The column for region start in bedfile [-S]",
      "class": "string",
-     "optional": true, 
+     "optional": false, 
      "default": "2",
      "group": "Common"
     },
@@ -90,7 +90,7 @@
      "label": "region end column",
      "help": "The column for region end in bedfile [-E]",
      "class": "string",
-     "optional": true, 
+     "optional": false, 
      "default": "3",
      "group": "Common"
     },
