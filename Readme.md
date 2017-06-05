@@ -11,7 +11,7 @@ VarDict is a variant calling program for SNV, MNV, indels (<120 bp default), and
 This app accepts any BAM file. Bam file will be indexing via samtools prior to variant calling. 
 By defult this app preforms localrealignment over indels on for more accurate allele frequencies of indels. 
 
-Regions to be analysed must be specified via bed files.
+BED files dictate the genomic regions inside which you want the variant analysis to be performed
 
 ## What are typical use cases for this app?
 
