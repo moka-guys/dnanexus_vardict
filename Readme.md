@@ -1,4 +1,4 @@
-# DNAnexus VarDict v1.0
+# DNAnexus VarDict v1.1
 
 ## What does this app do?
 
