@@ -1,6 +1,6 @@
 {
-  "name": "vardict",
-  "title": "Vardict variant caller",
+  "name": "vardict_v1.2",
+  "title": "Vardict variant caller v1.2",
   "summary": "v1.2 - (VarDict somatic variant caller for use on SWIFT NGS sequencing output).",
   "tags": [
     "Variants",
