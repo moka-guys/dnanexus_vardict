@@ -69,8 +69,8 @@ done
 
 # Send output back to DNAnexus project
 mark-section "Upload output"
-mkdir -p ~/out/vardict_vcf/vcf
-mv ./*.vardict.vcf ~/out/vardict_vcf/vcf
+mkdir -p ~/out/vardict_vcf/output/vcf
+mv ./*.vardict.vcf ~/out/vardict_vcf/output/vcf
 
 dx-upload-all-outputs --parallel
 
