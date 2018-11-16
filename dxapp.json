@@ -1,13 +1,13 @@
 {
-  "name": "vardict_v1.2",
-  "title": "Vardict variant caller v1.2",
-  "summary": "v1.2 - (VarDict somatic variant caller for use on SWIFT NGS sequencing output).",
+  "name": "vardict_v1.3",
+  "title": "Vardict variant caller v1.3",
+  "summary": "v1.3 - (VarDict somatic variant caller for use on SWIFT NGS sequencing output).",
   "tags": [
     "Variants",
     "Cancer"
   ],
   "properties": {
-    "github release": "v1.2"
+    "github release": "v1.3"
   },
   "dxapi": "1.0.0",
   "inputSpec": [
@@ -29,7 +29,7 @@
     },  
     {
       "name": "ref_genome",
-      "label": "referance genome",
+      "label": "reference genome",
       "help": "The reference fasta.  Should be indexed (.fai) [-G]",
       "class": "file",
       "optional": false
@@ -132,7 +132,7 @@
     "runSpec": {
     "systemRequirements": {
       "main": {
-        "instanceType": "mem1_ssd1_x8"
+        "instanceType": "mem1_ssd1_x2"
       }
     },
     "distribution" : "Ubuntu",

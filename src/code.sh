@@ -7,6 +7,9 @@ set -e -x -o pipefail
 #Grab inputs
 dx-download-all-inputs --except ref_genome --parallel
 
+# make output folder
+mkdir -p ~/out/vardict_vcf/output
+
 # Move inputs to home
 # mv ~/in/bam_file/* ~/*
 
@@ -64,14 +67,11 @@ do echo ${bam_file_prefix[i]}
 # Index bam file input
 samtools index ${bam_file_path[i]}
 # run Vardict
-/usr/bin/vardict/vardict -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | /usr/bin/vardict/teststrandbias.R | /usr/bin/vardict/var2vcf_valid.pl -E -f $allele_freq > ${bam_file_prefix[i]}.vardict.vcf
+/usr/bin/vardict/vardict -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | /usr/bin/vardict/teststrandbias.R | /usr/bin/vardict/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
 done
 
 # Send output back to DNAnexus project
 mark-section "Upload output"
-mkdir -p ~/out/vardict_vcf/vcf
-mv ./*.vardict.vcf ~/out/vardict_vcf/vcf
-
 dx-upload-all-outputs --parallel
 
 mark-success
