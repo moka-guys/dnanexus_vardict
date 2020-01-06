@@ -67,7 +67,7 @@ do echo ${bam_file_prefix[i]}
 # Index bam file input
 samtools index ${bam_file_path[i]}
 # run Vardict
-/usr/bin/vardict/vardict -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | /usr/bin/vardict/teststrandbias.R | /usr/bin/vardict/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
+/usr/bin/VarDict-1.7.0/bin/VarDict -G $genome_file -b ${bam_file_path[i]} -f $allele_freq $opts $bedfile_path | /usr/bin/VarDict-1.7.0/bin/teststrandbias.R | /usr/bin/VarDict-1.7.0/bin/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
 done
 
 # Send output back to DNAnexus project
