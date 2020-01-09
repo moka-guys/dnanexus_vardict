@@ -150,10 +150,3 @@
     }
   }
 }
-
-
-{ "runSpec": {
-"execDepends": [
-    {"name": "openjdk-6-jre", "version": "6b24-1.11.1-4ubuntu2"},
-    {"name": "r-base-core"},
-    {"name": "samtools"},
