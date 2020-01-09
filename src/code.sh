@@ -10,10 +10,6 @@ dx-download-all-inputs --except ref_genome --parallel
 # make output folder
 mkdir -p ~/out/vardict_vcf/output
 
-# Install Java on to instance
-sudo apt install openjdk-8-jdk
-JAVA_HOME='/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java'
-
 # Move inputs to home
 # mv ~/in/bam_file/* ~/*
 

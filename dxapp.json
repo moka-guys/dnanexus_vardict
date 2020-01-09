@@ -133,7 +133,12 @@
     "file": "src/code.sh",
     "release": "14.04",
     "interpreter": "bash",
-    "distribution": "Ubuntu"
+    "distribution": "Ubuntu",
+    "execDepends": [
+      {
+        "name": "openjdk-8-jdk"
+      }
+    ]
   },
   "regionalOptions": {
     "aws:us-east-1": {
@@ -145,3 +150,10 @@
     }
   }
 }
+
+
+{ "runSpec": {
+"execDepends": [
+    {"name": "openjdk-6-jre", "version": "6b24-1.11.1-4ubuntu2"},
+    {"name": "r-base-core"},
+    {"name": "samtools"},
