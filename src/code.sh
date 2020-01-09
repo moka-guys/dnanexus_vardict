@@ -10,6 +10,10 @@ dx-download-all-inputs --except ref_genome --parallel
 # make output folder
 mkdir -p ~/out/vardict_vcf/output
 
+# Install Java on to instance
+sudo apt install openjdk-8-jdk
+JAVA_HOME='/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java'
+
 # Move inputs to home
 # mv ~/in/bam_file/* ~/*
 
@@ -67,7 +71,7 @@ do echo ${bam_file_prefix[i]}
 # Index bam file input
 samtools index ${bam_file_path[i]}
 # run Vardict
-/usr/bin/VarDict-1.7.0/bin/VarDict -G $genome_file -b ${bam_file_path[i]} -f $allele_freq $opts $bedfile_path | /usr/bin/VarDict-1.7.0/bin/teststrandbias.R | /usr/bin/VarDict-1.7.0/bin/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
+/usr/bin/VarDict-1.7.0/bin/VarDict -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | /usr/bin/VarDict-1.7.0/bin/teststrandbias.R | /usr/bin/VarDict-1.7.0/bin/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
 done
 
 # Send output back to DNAnexus project
