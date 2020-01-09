@@ -139,7 +139,7 @@
     "aws:us-east-1": {
       "systemRequirements": {
         "main": {
-          "instanceType": "mem1_ssd1_x2"
+          "instanceType": "mem2_ssd1_x8"
         }
       }
     }
