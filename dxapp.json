@@ -1,13 +1,14 @@
-{
-  "name": "vardict_v1.3.1",
-  "title": "Vardict variant caller v1.3.1",
-  "summary": "v1.3.1 - (VarDict somatic variant caller for use on SWIFT NGS sequencing output).",
+
+  "name": "vardict_v1.4",
+  "title": "Vardict variant caller v1.4",
+  "summary": "v1.4 - (VarDict somatic variant caller for use on SWIFT NGS sequencing output).",
+
   "tags": [
     "Variants",
     "Cancer"
   ],
   "properties": {
-    "github release": "v1.3.1"
+    "github release": "v1.4"
   },
   "dxapi": "1.0.0",
   "inputSpec": [
@@ -20,13 +21,13 @@
       "optional": false
     },
     {
-     "name": "bedfile",
-     "label": "Bedfile",
-     "help": "BED file or amplicon BED file.",
-     "class": "file",
-     "patterns": ["*.bed"],
-     "optional": false
-    },  
+      "name": "bedfile",
+      "label": "Bedfile",
+      "help": "BED file or amplicon BED file.",
+      "class": "file",
+      "patterns": ["*.bed"],
+      "optional": false
+    },
     {
       "name": "ref_genome",
       "label": "reference genome",
@@ -35,83 +36,83 @@
       "optional": false
     },
     {
-     "name": "allele_freq",
-     "label": "allele frequency threshold",
-     "help": "The threshold for allele frequency, default: 0.01 or 1% [-f]",
-     "class": "string",
-     "optional": false,
-     "default": "0.01",      
-     "group": "Common"
+      "name": "allele_freq",
+      "label": "allele frequency threshold",
+      "help": "The threshold for allele frequency, default: 0.01 or 1% [-f]",
+      "class": "string",
+      "optional": false,
+      "default": "0.01",
+      "group": "Common"
     },
     {
-     "name": "sample_name",
-     "label": "Sample name",
-     "help": "Sample name. Will overwrite sample name extracted from bam filenames [-N]",
-     "class": "string",
-     "optional": true, 
-     "group": "Common"
+      "name": "sample_name",
+      "label": "Sample name",
+      "help": "Sample name. Will overwrite sample name extracted from bam filenames [-N]",
+      "class": "string",
+      "optional": true,
+      "group": "Common"
     },
     {
-     "name": "min_reads",
-     "label": "min variance reads",
-     "help": " The minimum # of variant reads, default 2 [-r]",
-     "class": "string",
-     "optional": true, 
-     "group": "Common"
+      "name": "min_reads",
+      "label": "min variance reads",
+      "help": " The minimum # of variant reads, default 2 [-r]",
+      "class": "string",
+      "optional": true,
+      "group": "Common"
     },
     {
-     "name": "reads_bias",
-     "label": "min reads for strand bias",
-     "help": "The minimum # of reads to determine strand bias, default 2 [-B]",
-     "class": "string",
-     "optional": true, 
-     "group": "Common"
+      "name": "reads_bias",
+      "label": "min reads for strand bias",
+      "help": "The minimum # of reads to determine strand bias, default 2 [-B]",
+      "class": "string",
+      "optional": true,
+      "group": "Common"
     },
     {
-     "name": "col_chr",
-     "label": "chromosome column",
-     "help": "The column for chromosome in bedfile [-c]",
-     "class": "string",
-     "optional": false, 
-     "default": "1",
-     "group": "Common"
+      "name": "col_chr",
+      "label": "chromosome column",
+      "help": "The column for chromosome in bedfile [-c]",
+      "class": "string",
+      "optional": false,
+      "default": "1",
+      "group": "Common"
     },
     {
-     "name": "col_start",
-     "label": "region start column",
-     "help": "The column for region start in bedfile [-S]",
-     "class": "string",
-     "optional": false, 
-     "default": "2",
-     "group": "Common"
+      "name": "col_start",
+      "label": "region start column",
+      "help": "The column for region start in bedfile [-S]",
+      "class": "string",
+      "optional": false,
+      "default": "2",
+      "group": "Common"
     },
     {
-     "name": "col_end",
-     "label": "region end column",
-     "help": "The column for region end in bedfile [-E]",
-     "class": "string",
-     "optional": false, 
-     "default": "3",
-     "group": "Common"
+      "name": "col_end",
+      "label": "region end column",
+      "help": "The column for region end in bedfile [-E]",
+      "class": "string",
+      "optional": false,
+      "default": "3",
+      "group": "Common"
     },
     {
-     "name": "col_gene",
-     "label": "gene name column",
-     "help": "The column for gene name in bedfile [-g]",
-     "class": "string",
-     "optional": true, 
-     "default": "4",
-     "group": "Common"
+      "name": "col_gene",
+      "label": "gene name column",
+      "help": "The column for gene name in bedfile [-g]",
+      "class": "string",
+      "optional": true,
+      "default": "4",
+      "group": "Common"
     },
     {
-     "name": "local_realignment",
-     "label": "local realignment",
-     "help": "Perform local realignment.  Default: True.  For Ion or PacBio, 0 is recommended [-k]",
-     "class": "boolean",
-     "optional": false,
-     "default": true,      
-     "group": "Common"
-    },  
+      "name": "local_realignment",
+      "label": "local realignment",
+      "help": "Perform local realignment.  Default: True.  For Ion or PacBio, 0 is recommended [-k]",
+      "class": "boolean",
+      "optional": false,
+      "default": true,
+      "group": "Common"
+    },
     {
       "name": "extra_options",
       "label": "Extra command-line options",
@@ -120,7 +121,7 @@
       "optional": true,
       "group": "Advanced"
     }
-    ],
+  ],
   "outputSpec": [
     {
       "name": "vardict_vcf",
@@ -129,15 +130,24 @@
       "class": "array:file"
     }
   ],
-    "runSpec": {
-    "systemRequirements": {
-      "main": {
-        "instanceType": "mem1_ssd1_x2"
-      }
-    },
-    "distribution" : "Ubuntu",
-    "release" : "14.04",
+  "runSpec": {
     "file": "src/code.sh",
-    "interpreter": "bash"
+    "release": "14.04",
+    "interpreter": "bash",
+    "distribution": "Ubuntu",
+    "execDepends": [
+      {
+        "name": "openjdk-8-jdk"
+      }
+    ]
+  },
+  "regionalOptions": {
+    "aws:us-east-1": {
+      "systemRequirements": {
+        "main": {
+          "instanceType": "mem2_ssd1_x8"
+        }
+      }
+    }
   }
 }

@@ -1,4 +1,5 @@
-# DNAnexus VarDict v1.3.1
+# DNAnexus VarDict v1.4
+
 
 ## What does this app do?
 This app performs variant calling using the VarDict variant caller, calling SNV, MNV, indels (<120 bp default), and complex variants.
@@ -35,8 +36,8 @@ Extra Options Advanced inputs:
 ## How does this app work?
 The app loops through the array of input BAM files and for each sample: 
 - The app uses Samtools to index each BAM file 
-- The app then uses VarDict to perform local realignment and call variants from the indexed bam file for the genomic regions specified in the supplied bed file. [This VarDict repository was cloned at this point into the app](https://github.com/AstraZeneca-NGS/VarDict/tree/328e00a1166abe4406020a9af12ca816a93517be).A number of scripts are applied in this process:
-  - vardict.pl
+- The app then uses VarDict to perform local realignment and call variants from the indexed bam file for the genomic regions specified in the supplied bed file. [This VarDict repository was cloned at this point into the app replacing the earlier perl version](git@github.com:AstraZeneca-NGS/VarDictJava.git).A number of scripts are applied in this process:
+  - vardict.jar
   - teststrandbias.R 
   - var2vcf_valid.pl - Convert the output into validated VCF file
 
@@ -50,4 +51,4 @@ This app outputs one uncompressed vcf file (.vcf) per sample detailing all calle
 vcf files are output to `/output`
 The reference genome is specified in the VCF header
 
-For detailed information about the analysis, consult the [VarDict readme](https://github.com/AstraZeneca-NGS/VarDict)
+For detailed information about the analysis, consult the [VarDict readme](https://github.com/AstraZeneca-NGS/VarDictJava)
