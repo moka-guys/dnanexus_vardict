@@ -7,6 +7,7 @@ set -e -x -o pipefail
 #Grab inputs
 dx-download-all-inputs --except ref_genome --parallel
 
+
 # make output folder
 mkdir -p ~/out/vardict_vcf/output
 
@@ -47,14 +48,22 @@ if [ "$extra_options" != "" ]; then
 	opts="$opts $extra_options" 
 fi
 
-# create directory for refernece genome, un-package reference genome
+# make folder for reference genome
 mkdir genome
+# download and untar reference genome
 dx cat "$ref_genome" | tar zxvf - -C genome  
+
+# get the name of the reference genome, and take all before first "."
+# should end up with GRCh38, hs37d5 etc - this should ensure reference build is described in the VCf header if not placed there by variant caller.
+genomebuild=$(echo $ref_genome_name | cut -d. -f1)
+
+
 # => genome/<ref>, genome/<ref>.ann, genome/<ref>.bwt, etc.
-# rename genome files to grch37 so that the VCF header states the reference to be grch37.fa, which then allows Ingenuity to accept the VCFs (otherwise VCF header would have reference as genome.fa which Ingenuity won't accept)
-mv  genome/*.fa  genome/grch37.fa
-mv  genome/*.fa.fai  genome/grch37.fa.fai
-# mv genome.dict grch37.dict
+cd genome
+for file in *
+  do mv "$file" "${file/genome/$genomebuild}"
+  done
+cd ..
 genome_file=`ls genome/*.fa`
 
 
@@ -68,6 +77,9 @@ do echo ${bam_file_prefix[i]}
 samtools index ${bam_file_path[i]}
 # run Vardict
 /usr/bin/VarDict-1.7.0/bin/VarDict -th -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | /usr/bin/VarDict-1.7.0/bin/teststrandbias.R | /usr/bin/VarDict-1.7.0/bin/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
+# add the reference genome into the last line of the header
+sed -i "s/#CHROM/##REFERENCE=$genomebuild\n#CHROM/" ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
+
 done
 
 # Send output back to DNAnexus project

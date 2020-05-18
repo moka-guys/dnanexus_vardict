@@ -1,5 +1,6 @@
 # DNAnexus VarDict v1.4
 
+
 ## What does this app do?
 This app performs variant calling using the VarDict variant caller, calling SNV, MNV, indels (<120 bp default), and complex variants.
 
@@ -48,5 +49,6 @@ The app loops through the array of input BAM files and for each sample:
 This app outputs one uncompressed vcf file (.vcf) per sample detailing all called variants within the regions specified in the BED file. 
 
 vcf files are output to `/output`
+The reference genome is specified in the VCF header
 
 For detailed information about the analysis, consult the [VarDict readme](https://github.com/AstraZeneca-NGS/VarDictJava)
