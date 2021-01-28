@@ -32,42 +32,52 @@ if [ "$min_reads" != "" ]; then
 fi
 
 if [ "$reads_bias" != "" ]; then
-	opts="$opts -B $reads_bias" 
+	opts="$opts -B $reads_bias"
 fi
 
 if [ "$sample_name" != "" ]; then
-	opts="$opts -N $sample_name" 
+	opts="$opts -N $sample_name"
 fi
 
 if [ "$local_realignment" == false ]; then
-	opts="$opts -k 0" 
+	opts="$opts -k 0"
 fi
 
 if [ "$extra_options" != "" ]; then
-	opts="$opts $extra_options" 
+	opts="$opts $extra_options"
 fi
 
-# create directory for refernece genome, un-package reference genome
+# make folder for reference genome
 mkdir genome
-dx cat "$ref_genome" | tar zxvf - -C genome  
-# => genome/<ref>, genome/<ref>.ann, genome/<ref>.bwt, etc.
-# rename genome files to grch37 so that the VCF header states the reference to be grch37.fa, which then allows Ingenuity to accept the VCFs (otherwise VCF header would have reference as genome.fa which Ingenuity won't accept)
-mv  genome/*.fa  genome/grch37.fa
-mv  genome/*.fa.fai  genome/grch37.fa.fai
-# mv genome.dict grch37.dict
+# download and untar reference genome
+dx cat "$ref_genome" | tar zxvf - -C genome
+
+# get the name of the reference genome, and take all before first "."
+# should end up with GRCh38, hs37d5 etc - this should ensure reference build is described in the VCf header if not placed there by variant caller.
+genomebuild=$(echo $ref_genome_name | cut -d. -f1)
+
+cd genome
+for file in *
+  do mv "$file" "${file/genome/$genomebuild}"
+  done
+cd ..
+
 genome_file=`ls genome/*.fa`
 
 
 # Run variant annotator for each Bam
 mark-section "Run VarDict Variant Caller"
-# loop through array of all bam files input, run VarDict for each bam file. 
-for (( i=0; i<${#bam_file_path[@]}; i++ )); 
+# loop through array of all bam files input, run VarDict for each bam file.
+for (( i=0; i<${#bam_file_path[@]}; i++ ));
 # show name of current bam file be run
 do echo ${bam_file_prefix[i]}
 # Index bam file input
 samtools index ${bam_file_path[i]}
 # run Vardict
 /usr/bin/vardict/vardict -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | /usr/bin/vardict/teststrandbias.R | /usr/bin/vardict/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
+# add the reference genome into the last line of the header
+sed -i "s/#CHROM/##REFERENCE=$genomebuild\n#CHROM/" ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
+
 done
 
 # Send output back to DNAnexus project
