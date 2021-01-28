@@ -62,7 +62,7 @@ for file in *
   done
 cd ..
 
-genome_file=`ls genome/*.fa`
+genome_file=$(ls genome/*.fa)
 
 
 # Run variant annotator for each Bam
