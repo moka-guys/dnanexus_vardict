@@ -39,6 +39,7 @@ The app loops through the array of input BAM files and for each sample:
   - vardict.pl
   - teststrandbias.R 
   - var2vcf_valid.pl - Convert the output into validated VCF file
+  - The reference build used is parsed from the reference FASTA file name and added to the VCF header.
 
 - In addition to the parameters stated VarDict applies additional filters including:
   - -I The indel size. Default =  120bp
