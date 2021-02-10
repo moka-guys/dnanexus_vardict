@@ -52,13 +52,28 @@ mkdir genome
 # download and untar reference genome
 dx cat "$ref_genome" | tar zxvf - -C genome
 
-# get the name of the reference genome, and take all before first "."
-# should end up with GRCh38, hs37d5 etc - this should ensure reference build is described in the VCf header if not placed there by variant caller.
-genomebuild=$(echo $ref_genome_name | cut -d. -f1)
+# Parse the reference genome file name for the genome build used and set $genomebuild appropriately.
+# This reference build will be added to the VCF header out put by VarDict.
+
+if [[ $ref_genome_name =~ .*37.* ]]
+then
+	genomebuild="grch37"
+elif [[ $ref_genome_name =~ .*19.* ]]
+then
+	genomebuild="hg19"
+elif [[ $ref_genome_name =~ .*38.* ]]
+then
+	genomebuild="grch38"
+elif [[ $ref_genome_name =~ .*20.* ]]
+then
+	genomebuild="hg20"
+else
+	echo "$ref_genome_name does not contain a parsable reference genome"
+fi
 
 cd genome
 for file in *
-  do mv "$file" "${file/genome/$genomebuild}"
+  do rsync -a "$file" "${file/genome/$genomebuild}"
   done
 cd ..
 
@@ -71,7 +86,7 @@ mark-section "Run VarDict Variant Caller"
 for (( i=0; i<${#bam_file_path[@]}; i++ ));
 # show name of current bam file be run
 do echo ${bam_file_prefix[i]}
-# Index bam file inputVardict
+# Index bam file input
 samtools index ${bam_file_path[i]}
 # run Vardict
 /usr/bin/vardict/vardict -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | /usr/bin/vardict/teststrandbias.R | /usr/bin/vardict/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
