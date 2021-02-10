@@ -1,13 +1,13 @@
 {
-  "name": "vardict_v1.3.1",
-  "title": "Vardict variant caller v1.3.1",
-  "summary": "v1.3.1 - (VarDict somatic variant caller for use on SWIFT NGS sequencing output).",
+  "name": "vardict_v1.3.2",
+  "title": "Vardict variant caller v1.3.2",
+  "summary": "v1.3.2 - (VarDict somatic variant caller for use on SWIFT NGS sequencing output).",
   "tags": [
     "Variants",
     "Cancer"
   ],
   "properties": {
-    "github release": "v1.3.1"
+    "github release": "v1.3.2"
   },
   "dxapi": "1.0.0",
   "inputSpec": [
@@ -40,7 +40,7 @@
      "help": "The threshold for allele frequency, default: 0.01 or 1% [-f]",
      "class": "string",
      "optional": false,
-     "default": "0.01",      
+     "default": "0.01",
      "group": "Common"
     },
     {
@@ -48,7 +48,7 @@
      "label": "Sample name",
      "help": "Sample name. Will overwrite sample name extracted from bam filenames [-N]",
      "class": "string",
-     "optional": true, 
+     "optional": true,
      "group": "Common"
     },
     {
@@ -56,7 +56,7 @@
      "label": "min variance reads",
      "help": " The minimum # of variant reads, default 2 [-r]",
      "class": "string",
-     "optional": true, 
+     "optional": true,
      "group": "Common"
     },
     {
@@ -64,7 +64,7 @@
      "label": "min reads for strand bias",
      "help": "The minimum # of reads to determine strand bias, default 2 [-B]",
      "class": "string",
-     "optional": true, 
+     "optional": true,
      "group": "Common"
     },
     {
@@ -72,7 +72,7 @@
      "label": "chromosome column",
      "help": "The column for chromosome in bedfile [-c]",
      "class": "string",
-     "optional": false, 
+     "optional": false,
      "default": "1",
      "group": "Common"
     },
@@ -81,7 +81,7 @@
      "label": "region start column",
      "help": "The column for region start in bedfile [-S]",
      "class": "string",
-     "optional": false, 
+     "optional": false,
      "default": "2",
      "group": "Common"
     },
@@ -90,7 +90,7 @@
      "label": "region end column",
      "help": "The column for region end in bedfile [-E]",
      "class": "string",
-     "optional": false, 
+     "optional": false,
      "default": "3",
      "group": "Common"
     },
@@ -99,7 +99,7 @@
      "label": "gene name column",
      "help": "The column for gene name in bedfile [-g]",
      "class": "string",
-     "optional": true, 
+     "optional": true,
      "default": "4",
      "group": "Common"
     },
@@ -109,9 +109,9 @@
      "help": "Perform local realignment.  Default: True.  For Ion or PacBio, 0 is recommended [-k]",
      "class": "boolean",
      "optional": false,
-     "default": true,      
+     "default": true,
      "group": "Common"
-    },  
+    },
     {
       "name": "extra_options",
       "label": "Extra command-line options",
