@@ -71,7 +71,7 @@ mark-section "Run VarDict Variant Caller"
 for (( i=0; i<${#bam_file_path[@]}; i++ ));
 # show name of current bam file be run
 do echo ${bam_file_prefix[i]}
-# Index bam file input
+# Index bam file inputVardict
 samtools index ${bam_file_path[i]}
 # run Vardict
 /usr/bin/vardict/vardict -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | /usr/bin/vardict/teststrandbias.R | /usr/bin/vardict/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
