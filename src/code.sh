@@ -52,15 +52,24 @@ mkdir genome
 # download and untar reference genome
 dx cat "$ref_genome" | tar zxvf - -C genome
 
-# get the name of the reference genome, and take all before first "."
-# should end up with GRCh38, hs37d5 etc - this should ensure reference build is described in the VCf header if not placed there by variant caller.
-genomebuild=$(echo $ref_genome_name | cut -d. -f1)
+# Parse the reference genome file name for the genome build used and set $genomebuild appropriately.
+# This reference build will be added to the VCF header out put by VarDict.
 
-cd genome
-for file in *
-  do mv "$file" "${file/genome/$genomebuild}"
-  done
-cd ..
+if [[ $ref_genome_name =~ .*37.* ]]
+then
+	genomebuild="grch37"
+elif [[ $ref_genome_name =~ .*19.* ]]
+then
+	genomebuild="hg19"
+elif [[ $ref_genome_name =~ .*38.* ]]
+then
+	genomebuild="grch38"
+elif [[ $ref_genome_name =~ .*20.* ]]
+then
+	genomebuild="hg20"
+else
+	echo "$ref_genome_name does not contain a parsable reference genome name"
+fi
 
 genome_file=$(ls genome/*.fa)
 

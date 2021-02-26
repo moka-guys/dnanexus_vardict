@@ -1,4 +1,4 @@
-# DNAnexus VarDict v1.3.1
+# DNAnexus VarDict v1.3.2
 
 ## What does this app do?
 This app performs variant calling using the VarDict variant caller, calling SNV, MNV, indels (<120 bp default), and complex variants.
@@ -12,7 +12,7 @@ The output vcf will be uploaded into Ingenuity for annotation and filtering.
 ## What inputs are required for this app to run?
 This app requires the following inputs:
 
-- Compressed reference genome including `*.fa` and `*.fa.fai` (`*.tar.gz`).  The file name should be in the format hs37d5.fasta-index.tar.gz so that the genome build can be parsed and added to the VCF header as required when processing with QCI.
+- Compressed reference genome including `*.fa` and `*.fa.fai` (`*.tar.gz`).  The file name should contain the genome build number (37, 19, 38, 20) so that this can be parsed and the appropriate metadata can be added to the VCF header as required when processing with QCI.
 - BAM file(s) (`*.bam`). Multiple BAM files can be provided, producing one VCF per sample (multisample variant calling is not performed).
 - BED file of regions of interest, for filtering output vcf (`*.bed`)
 
