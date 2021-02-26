@@ -68,14 +68,8 @@ elif [[ $ref_genome_name =~ .*20.* ]]
 then
 	genomebuild="hg20"
 else
-	echo "$ref_genome_name does not contain a parsable reference genome"
+	echo "$ref_genome_name does not contain a parsable reference genome name"
 fi
-
-cd genome
-for file in *
-  do rsync -a "$file" "${file/genome/$genomebuild}"
-  done
-cd ..
 
 genome_file=$(ls genome/*.fa)
 
