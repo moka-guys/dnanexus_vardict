@@ -36,7 +36,7 @@ Extra Options Advanced inputs:
 ## How does this app work?
 The app loops through the array of input BAM files and for each sample: 
 - The app uses Samtools to index each BAM file 
-- The app then uses VarDict to perform local realignment and call variants from the indexed bam file for the genomic regions specified in the supplied bed file. [This VarDict repository was cloned at this point into the app replacing the earlier perl version](git@github.com:AstraZeneca-NGS/VarDictJava.git).A number of scripts are applied in this process:
+- The app then uses VarDict to perform local realignment and call variants from the indexed bam file for the genomic regions specified in the supplied bed file. [The script uses the Java version of VarDict v1.8.2](https://github.com/AstraZeneca-NGS/VarDictJava/releases/tag/v1.8.2). A number of scripts are applied in this process:
   - vardict.jar
   - teststrandbias.R 
   - var2vcf_valid.pl - Convert the output into validated VCF file
