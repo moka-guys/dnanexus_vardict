@@ -132,8 +132,7 @@
   ],
   "runSpec": {
     "file": "src/code.sh",
-    "release": "20.04",
-    "version": "0",
+    "release": "16.04",
     "interpreter": "bash",
     "distribution": "Ubuntu",
     "execDepends": [
