@@ -11,6 +11,7 @@ dx-download-all-inputs --except ref_genome --parallel
 # make output folder
 mkdir -p ~/out/vardict_vcf/output
 mkdir -p ~/out/vardict_vcf/interim
+mkdir -p ~/bcftools_stats/QC/
 
 # Move inputs to home
 # mv ~/in/bam_file/* ~/*
@@ -25,6 +26,12 @@ echo $min_reads
 echo $reads_bias
 echo $local_realignment
 echo $extra_options
+
+# Get dockerised BCFtools from 001_ToolsReferenceData/Apps/Docker
+
+BCFTOOLS_DOCKER_FILE_ID=project-ByfFPz00jy1fk6PjpZ95F27J:file-G5Z3Yk006yv6gGp6G7zFQG8j
+BCFTOOLS_DOCKER_IMAGE_FILE=$(dx describe ${BCFTOOLS_DOCKER_FILE_ID} --name)
+BCFTOOLS_DOCKER_IMAGE_NAME=$(tar xfO "${BCFTOOLS_DOCKER_IMAGE_FILE}" manifest.json | sed -E 's/.*"RepoTags":\["?([^"]*)"?.*/\1/')
 
 #Construct opts sting
 opts=" -f $allele_freq -c $col_chr -S $col_start -E $col_end -g $col_gene "
@@ -77,9 +84,12 @@ do echo ${bam_file_prefix[i]}
 # Index bam file input
 samtools index ${bam_file_path[i]}
 # run Vardict
-/usr/bin/VarDict-1.8.2/bin/VarDict -th -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | tee ~/out/vardict_vcf/interim/${bam_file_prefix[i]}.vardict.csv | /usr/bin/VarDict-1.8.2/bin/teststrandbias.R | /usr/bin/VarDict-1.8.2/bin/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
+/usr/bin/VarDict-1.8.2/bin/VarDict -th -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | tee ~/out/vardict_vcf/interim/${bam_file_prefix[i]}.vardict.csv | /usr/bin/VarDict-1.8.2/bin/teststrandbias.R | /usr/bin/VarDict-1.8.2/bin/var2vcf_valid.pl -E -f $allele_freq $var2vcf_opts > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
 # add the reference genome into the last line of the header
 sed -i "s/#CHROM/##REFERENCE=$genomebuild\n#CHROM/" ~/out/vardict_vcf/output/${bam_file_prefix[i1]}.vardict.vcf
+
+# Run bcftools stats to produce stats for each file
+sudo docker run -v /home/dnanexus:/home --rm ${BCFTOOLS_DOCKER_IMAGE_NAME} bcftools stats ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf > ~/out/bcftools_stats/QC/${bam_file_prefix[i]}.vardict.stats
 
 done
 

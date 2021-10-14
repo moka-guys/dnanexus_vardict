@@ -128,6 +128,18 @@
       "label": "Output VCF from VarDict",
       "help": "Output VCF.",
       "class": "array:file"
+    },
+    {
+      "name": "vardict_csv",
+      "label": "Output CVS before strand bias filtering",
+      "help": "Output CSV.",
+      "class": "array:file"
+    },
+    {
+      "name": "bcftools_stats",
+      "label": "Output Stats from bcftools",
+      "help": "bcftools QC stats.",
+      "class": "array:file"
     }
   ],
   "runSpec": {
