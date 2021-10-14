@@ -77,7 +77,7 @@ do echo ${bam_file_prefix[i]}
 # Index bam file input
 samtools index ${bam_file_path[i]}
 # run Vardict
-/usr/bin/VarDict-1.8.2/bin/VarDict -th -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | tee /usr/bin/VarDict-1.8.2/bin/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/interim/${bam_file_prefix[i]}.vardict.vcf | /usr/bin/VarDict-1.8.2/bin/teststrandbias.R | /usr/bin/VarDict-1.8.2/bin/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
+/usr/bin/VarDict-1.8.2/bin/VarDict -th -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | tee ~/out/vardict_vcf/interim/${bam_file_prefix[i]}.vardict.csv | /usr/bin/VarDict-1.8.2/bin/teststrandbias.R | /usr/bin/VarDict-1.8.2/bin/var2vcf_valid.pl -E -f $allele_freq > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
 # add the reference genome into the last line of the header
 sed -i "s/#CHROM/##REFERENCE=$genomebuild\n#CHROM/" ~/out/vardict_vcf/output/${bam_file_prefix[i1]}.vardict.vcf
 
