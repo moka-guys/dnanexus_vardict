@@ -33,6 +33,9 @@ BCFTOOLS_DOCKER_FILE_ID=project-ByfFPz00jy1fk6PjpZ95F27J:file-G5Z3Yk006yv6gGp6G7
 BCFTOOLS_DOCKER_IMAGE_FILE=$(dx describe ${BCFTOOLS_DOCKER_FILE_ID} --name)
 BCFTOOLS_DOCKER_IMAGE_NAME=$(tar xfO "${BCFTOOLS_DOCKER_IMAGE_FILE}" manifest.json | sed -E 's/.*"RepoTags":\["?([^"]*)"?.*/\1/')
 
+dx download ${DOCKER_FILE_ID}
+docker load < ${BCFTOOLS_DOCKER_IMAGE_FILE}
+
 #Construct opts sting
 opts=" -f $allele_freq -c $col_chr -S $col_start -E $col_end -g $col_gene "
 # add non-optional arguments to opts string
