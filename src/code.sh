@@ -7,11 +7,13 @@ set -e -x -o pipefail
 #Grab inputs
 dx-download-all-inputs --except ref_genome --parallel
 
+# Store the API key. Grants the script access to DNAnexus resources    
+API_KEY=$(dx cat project-FQqXfYQ0Z0gqx7XG9Z2b4K43:mokaguys_nexus_auth_key)
 
 # make output folder
 mkdir -p ~/out/vardict_vcf/output
 mkdir -p ~/out/vardict_vcf/interim
-mkdir -p ~/bcftools_stats/QC/
+mkdir -p ~/out/vardict_vcf/bcftools_stats/QC
 
 # Move inputs to home
 # mv ~/in/bam_file/* ~/*
@@ -29,15 +31,13 @@ echo $extra_options
 
 # Get dockerised BCFtools from 001_ToolsReferenceData/Apps/Docker
 
-BCFTOOLS_DOCKER_FILE_ID=project-ByfFPz00jy1fk6PjpZ95F27J:file-G5Z3Yk006yv6gGp6G7zFQG8j
-BCFTOOLS_DOCKER_IMAGE_FILE=$(dx describe ${BCFTOOLS_DOCKER_FILE_ID} --name)
-BCFTOOLS_DOCKER_IMAGE_NAME=$(tar xfO "${BCFTOOLS_DOCKER_IMAGE_FILE}" manifest.json | sed -E 's/.*"RepoTags":\["?([^"]*)"?.*/\1/')
-
-dx download ${DOCKER_FILE_ID}
-docker load < ${BCFTOOLS_DOCKER_IMAGE_FILE}
+# Download bcftools docker image from 00
+dx download project-ByfFPz00jy1fk6PjpZ95F27J:file-G5ZfZ9Q06yv38GV5FXXPqfF9 --auth ${API_KEY}
+chmod 777 graeme_bcftools_v1.13.tar.gz 
+docker load < graeme_bcftools_v1.13.tar.gz
 
 #Construct opts sting
-opts=" -f $allele_freq -c $col_chr -S $col_start -E $col_end -g $col_gene "
+opts=" -f $allele_freq -c $col_chr -S $col_start -E $col_end -g $col_gene -P $read_position_filter -Q $mapping_quality "
 # add non-optional arguments to opts string
 if [ "$min_reads" != "" ]; then
   opts="$opts -r $min_reads"
@@ -55,9 +55,16 @@ if [ "$local_realignment" == false ]; then
 	opts="$opts -k 0" 
 fi
 
+if [ "$indel_size" != "" ]; then
+	opts="$opts -I $indel_size" 
+fi
+
 if [ "$extra_options" != "" ]; then
 	opts="$opts $extra_options" 
 fi
+
+#Construct var2vcf_opts string for using with var2vcf_valid.pl
+var2vcf_opts=" -P $read_position_sd -p $min_mean_position "
 
 # make folder for reference genome
 mkdir genome
@@ -89,10 +96,11 @@ samtools index ${bam_file_path[i]}
 # run Vardict
 /usr/bin/VarDict-1.8.2/bin/VarDict -th -G $genome_file -b ${bam_file_path[i]} $opts $bedfile_path | tee ~/out/vardict_vcf/interim/${bam_file_prefix[i]}.vardict.csv | /usr/bin/VarDict-1.8.2/bin/teststrandbias.R | /usr/bin/VarDict-1.8.2/bin/var2vcf_valid.pl -E -f $allele_freq $var2vcf_opts > ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
 # add the reference genome into the last line of the header
-sed -i "s/#CHROM/##REFERENCE=$genomebuild\n#CHROM/" ~/out/vardict_vcf/output/${bam_file_prefix[i1]}.vardict.vcf
+sed -i "s/#CHROM/##REFERENCE=$genomebuild\n#CHROM/" ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf
 
 # Run bcftools stats to produce stats for each file
-sudo docker run -v /home/dnanexus:/home --rm ${BCFTOOLS_DOCKER_IMAGE_NAME} bcftools stats ~/out/vardict_vcf/output/${bam_file_prefix[i]}.vardict.vcf > ~/out/bcftools_stats/QC/${bam_file_prefix[i]}.vardict.stats
+mark-section "Run bcftools stats"
+sudo docker run -v /home/dnanexus:/home --rm quay.io/biocontainers/bcftools:1.13--h3a49de5_0 bcftools stats /home/out/vardict_vcf/output/"${bam_file_prefix[i]}".vardict.vcf | sudo tee ~/out/vardict_vcf/bcftools_stats/QC/test.vardict.stats.txt
 
 done
 

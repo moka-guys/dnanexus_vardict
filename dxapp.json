@@ -105,12 +105,57 @@
       "group": "Common"
     },
     {
+      "name": "indel_size",
+      "label": "indel size",
+      "help": "Indel size. Default: 50bp, 200-300 bp is only recommend for hybrid capture sequencing. [-I]",
+      "class": "string",
+      "optional": true,
+      "default": "50",
+      "group": "Common"
+    },
+    {
       "name": "local_realignment",
       "label": "local realignment",
       "help": "Perform local realignment.  Default: True.  For Ion or PacBio, 0 is recommended [-k]",
       "class": "boolean",
       "optional": false,
       "default": true,
+      "group": "Common"
+    },
+    {
+      "name": "read_position_filter",
+      "label": "read position filter",
+      "help": "If the mean variants position is less that specified, it is considered false positive. [-P]",
+      "class": "string",
+      "optional": true,
+      "default": "0",
+      "group": "Common"
+    },
+    {
+      "name": "mapping_quality",
+      "label": "mapping quality",
+      "help": "If set, reads with mapping quality less than INT will be filtered and ignored [-Q]",
+      "class": "string",
+      "optional": true,
+      "default": "20",
+      "group": "Common"
+    },
+    {
+      "name": "min_mean_position",
+      "label": "var2vcf_valid.pl: minimum mean position of variants in the read.  Default: 8.",
+      "help": "minimum mean position of variants in the read.  Default: 8. [-p]",
+      "class": "string",
+      "optional": true,
+      "default": "8",
+      "group": "Common"
+    },
+    {
+      "name": "read_position_sd",
+      "label": "var2vcf_valid.pl: read position standard deviation",
+      "help": "Whether to filter variants with pstd = 0. Set it to 0 for targeted PCR based sequencing, where pstd is expected. [-P]",
+      "class": "string",
+      "optional": true,
+      "default": "0",
       "group": "Common"
     },
     {
@@ -128,18 +173,6 @@
       "label": "Output VCF from VarDict",
       "help": "Output VCF.",
       "class": "array:file"
-    },
-    {
-      "name": "vardict_csv",
-      "label": "Output CVS before strand bias filtering",
-      "help": "Output CSV.",
-      "class": "array:file"
-    },
-    {
-      "name": "bcftools_stats",
-      "label": "Output Stats from bcftools",
-      "help": "bcftools QC stats.",
-      "class": "array:file"
     }
   ],
   "runSpec": {
@@ -151,6 +184,12 @@
       {
         "name": "openjdk-8-jdk"
       }
+    ]
+  },
+  "access": {
+    "allProjects":"UPLOAD",
+    "network": [
+      "*"
     ]
   },
   "regionalOptions": {
