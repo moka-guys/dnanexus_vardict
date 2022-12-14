@@ -1,4 +1,4 @@
-# DNAnexus VarDict v1.3.2
+# DNAnexus VarDict v1.5.0
 
 ## What does this app do?
 This app performs variant calling using the VarDict variant caller, calling SNV, MNV, indels (<120 bp default), and complex variants.
