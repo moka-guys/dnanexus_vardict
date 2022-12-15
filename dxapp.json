@@ -129,15 +129,15 @@
       "class": "array:file"
     }
   ],
-    "runSpec": {
+  "runSpec": {
     "systemRequirements": {
       "main": {
         "instanceType": "mem1_ssd1_x2"
       }
     },
-    "execDepends": {
+    "execDepends": [{
       "name": "samtools"
-    },
+    }],
     "distribution" : "Ubuntu",
     "release" : "20.04",
     "version" : "0",
