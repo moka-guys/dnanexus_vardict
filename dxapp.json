@@ -135,6 +135,9 @@
         "instanceType": "mem1_ssd1_x2"
       }
     },
+    "execDepends": {
+      "name": "samtools"
+    },
     "distribution" : "Ubuntu",
     "release" : "20.04",
     "version" : "0",
