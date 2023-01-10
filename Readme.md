@@ -34,7 +34,7 @@ Extra Options Advanced inputs:
 
 ## How does this app work?
 The app loops through the array of input BAM files and for each sample: 
-- The app uses Samtools to index each BAM file 
+- The app uses Samtools v1.10-3 to index each BAM file 
 - The app then uses VarDict to perform local realignment and call variants from the indexed bam file for the genomic regions specified in the supplied bed file. [This VarDict repository was cloned at this point into the app](https://github.com/AstraZeneca-NGS/VarDict/tree/328e00a1166abe4406020a9af12ca816a93517be).A number of scripts are applied in this process:
   - vardict.pl
   - teststrandbias.R 
